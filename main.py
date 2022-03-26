@@ -1,6 +1,8 @@
 from email.policy import HTTP
+import enum
 from turtle import down
 from fastapi import FastAPI, status
+from pydantic import EnumError
 from models.app_model import App, AppCollection, AppRequestBody
 from fastapi.responses import JSONResponse
 
@@ -55,6 +57,17 @@ async def fetch_apps(req: AppRequestBody):
                     response[idx] = app.jsonify()
             else:
                 response[idx] = app.jsonify()
+
+    return JSONResponse(content=response,
+                        status_code=status.HTTP_200_OK)
+
+
+@api_app.get("/my_apps/{creator_id}")
+async def get_my_apps(creator_id: str):
+    response = {}
+    for idx, app in enumerate(sandbox_db):
+        if app.creator == creator_id:
+            response[idx] = app.jsonify()
 
     return JSONResponse(content=response,
                         status_code=status.HTTP_200_OK)
