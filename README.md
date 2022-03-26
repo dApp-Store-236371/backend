@@ -20,3 +20,5 @@ Request example - `curl -X 'POST' \
   "end": 3
 
 }'`
+
+* `/my_apps/{creator_id}` - fetches all apps created by creator_id
